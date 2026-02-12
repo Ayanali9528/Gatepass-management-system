@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Sign-Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .back-to-login {
+      margin-top: 20px;
+    }
+    .back-to-login a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .back-to-login a:hover {
+      text-decoration: underline;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+        .logo{
+width: 100%;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.logo img{
+  width: 70px;
+  height: 100%;
+  border-radius: 100px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+    <img src="piet logo.jpg" alt="">
+  </div>
+    <h2>Teacher Sign-Up</h2>
+    <form id="teacher-signup-form">
+      <div class="form-group">
+        <label for="signupName">Full Name:</label>
+        <input type="text" id="signupName" placeholder="Enter your full name" required />
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email:</label>
+        <input type="email" id="signupEmail" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" placeholder="Enter your password" required />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" placeholder="Confirm your password" required />
+      </div>
+      <div class="form-group">
+        <label for="signupDepartment">Department:</label>
+        <input type="text" id="signupDepartment" placeholder="Enter your department" required />
+      </div>
+      <div class="error" id="error-message"></div>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="back-to-login">
+      <a href="pietgatepass.html">Back to Login</a>
+    </div>
+  </div>
+  <script>
+    const teacherSignupForm = document.getElementById('teacher-signup-form');
+    const errorMessage = document.getElementById('error-message');
+
+    // Handle Teacher Sign-Up Form Submission
+    teacherSignupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const department = document.getElementById('signupDepartment').value;
+
+      // Validate Password and Confirm Password
+      if (password !== confirmPassword) {
+        errorMessage.textContent = 'Passwords do not match!';
+        return;
+      }
+
+      // Create a teacher object
+      const teacher = {
+        name,
+        email,
+        password,
+        department,
+      };
+
+      // Retrieve existing teachers from localStorage
+      const existingTeachers = JSON.parse(localStorage.getItem('teachers')) || [];
+      existingTeachers.push(teacher);
+
+      // Save updated teachers back to localStorage
+      localStorage.setItem('teachers', JSON.stringify(existingTeachers));
+
+      // Reset the form and show a success message
+      teacherSignupForm.reset();
+      alert('Sign-Up Successful! You can now log in.');
+      window.location.href = 'pietgatepass.html'; // Redirect to the login page
+    });
+  </script>
+</body>
+</html>

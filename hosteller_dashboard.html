@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostelar Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .request-details {
+      background: #f9f9f9;
+      border-left: 6px solid #007BFF;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .request-details:hover {
+      background: #e6f7ff;
+    }
+
+    .additional-info {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .expanded .additional-info {
+      display: block;
+    }
+
+    .request-actions {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .expanded .request-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .request-actions button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    
+    }
+    
+
+  .status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  .status.pending {
+    background-color: #ffc107; /* Yellow for Pending */
+    color: #856404;
+  }
+
+  .status.approved {
+    background-color: #28a745; /* Green for Approved */
+    color: white;
+  }
+
+  .status.rejected {
+    background-color: #dc3545; /* Red for Rejected */
+    color: white;
+  }
+
+    .accept {
+      background: #28a745;
+      color: white;
+    }
+
+    .reject {
+      background: #dc3545;
+      color: white;
+    }
+
+    .accept:hover {
+      background: #218838;
+    }
+
+    .reject:hover {
+      background: #c82333;
+    }
+
+        .logo{
+width: 100%;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.logo img{
+  width: 70px;
+  height: 100%;
+  border-radius: 100px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+#clear-hostel-storage-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="logo">
+    <img src="piet logo.jpg" alt="">
+  </div>
+    <h2>Hostelar Dashboard</h2>
+
+    <!-- Add this button for clearing hostel requests -->
+<button id="clear-hostel-storage-btn" style="margin-bottom:15px; background:#ff4d4d; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">
+  Clear All Requests
+</button>
+    <div id="hostel-request-details">
+      <!-- Hostel gate pass request details will be dynamically added here -->
+    </div>
+  </div>
+  <script>
+    // Retrieve hostel gate pass requests from localStorage
+    // Retrieve hostel gate pass requests from localStorage
+const hostelRequestDetails = document.getElementById('hostel-request-details');
+
+// Retrieve hostel gate pass requests from localStorage
+const hostelGatePassRequests = JSON.parse(localStorage.getItem('hostelGatePassRequests')) || [];
+
+// Check if data exists
+if (hostelGatePassRequests.length === 0) {
+  hostelRequestDetails.innerHTML = '<p>No requests found.</p>';
+} else {
+  // Display all requests for the hosteller
+  hostelGatePassRequests.forEach((request, index) => {
+    console.log(request); // Log each request to verify its structure
+
+    const requestCard = document.createElement('div');
+    requestCard.className = 'request-details';
+
+    // Determine the status class based on the request status
+    const statusClass = request.status.toLowerCase().replace(' ', '-'); // Convert status to a valid class name
+
+    requestCard.innerHTML = `
+      <div class="request-info">
+        <p><strong>Registration ID:</strong> ${request.regId || 'N/A'}</p>
+        <p><strong>Name:</strong> ${request.hostelName}</p>
+        <p><strong>Class:</strong> ${request.roomNumber}</p>
+      </div>
+      <div class="additional-info">
+        <p><strong>Hostel Block:</strong> ${request.hostelBlock}</p>
+        <p><strong>Reason:</strong> ${request.hostelReason}</p>
+        <p><strong>Outgoing Date and Time:</strong> ${request.outgoingDateTime || 'N/A'}</p>
+        <p><strong>Incoming Date and Time:</strong> ${request.incomingDateTime || 'N/A'}</p>
+        <p><strong>Contact:</strong> ${request.contact || 'N/A'}</p>
+        <p class="status ${statusClass}"><strong>Status:</strong> ${request.status}</p>
+      </div>
+    `;
+    hostelRequestDetails.appendChild(requestCard);
+
+    // Add click event to toggle additional details
+    requestCard.addEventListener('click', () => {
+      requestCard.classList.toggle('expanded');
+    });
+  });
+}
+
+
+// ...existing code...
+
+// Clear localStorage for hostelGatePassRequests
+document.getElementById('clear-hostel-storage-btn').onclick = function() {
+  if (confirm('Are you sure you want to clear all hostel requests?')) {
+    localStorage.removeItem('hostelGatePassRequests');
+    location.reload();
+  }
+};
+
+  </script>
+</body>
+
+</html>

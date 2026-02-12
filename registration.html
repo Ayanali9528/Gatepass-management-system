@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Registration ID</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .registration-id {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+    .logo{
+width: 100%;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.logo img{
+  width: 70px;
+  height: 100%;
+  border-radius: 100px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+<div class="logo">
+    <img src="piet logo.jpg" alt="">
+  </div>
+
+    <h2>Generate Your Registration ID</h2>
+    <form id="registration-form">
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Enter your full name" required />
+      </div>
+      <div class="form-group">
+        <label for="class">department:</label>
+        <input type="text" id="class" placeholder="Enter your department" required />
+      </div>
+      <div class="form-group">
+        <label for="section">Section:</label>
+        <input type="text" id="section" placeholder="Enter your section" required />
+      </div>
+      <button type="submit">Generate ID</button>
+    </form>
+    <div class="registration-id" id="registration-id"></div>
+    <button id="back-btn" style="margin-top: 20px;">Back to Home</button>
+  </div>
+  <script>
+    const registrationForm = document.getElementById('registration-form');
+    const registrationIdDiv = document.getElementById('registration-id');
+    const backBtn = document.getElementById('back-btn');
+
+    // Handle form submission to generate Registration ID
+    registrationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Get user input
+      const name = document.getElementById('name').value.trim();
+      const className = document.getElementById('class').value.trim();
+      const section = document.getElementById('section').value.trim();
+
+      // Generate a unique Registration ID based on user input
+      const registrationId = `REG-${Math.floor(10000 + Math.random() * 90000)}`; // Example: REG-10-A-1234
+      registrationIdDiv.textContent = `Your Registration ID: ${registrationId}`;
+
+      // Save the Registration ID to localStorage
+      localStorage.setItem('generatedRegistrationId', registrationId);
+    });
+
+    // Navigate back to the main page
+    backBtn.addEventListener('click', () => {
+      window.location.href = 'pietgatepass.html'; // Redirect to the main page
+    });
+  </script>
+</body>
+</html>

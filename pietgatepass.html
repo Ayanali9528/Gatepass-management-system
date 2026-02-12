@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gate Pass System</title>
+ <style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+
+ body {
+  margin: 0;
+  background-color: #8ba3bb;
+  background-image: url('Screenshot 2025-05-15 113554.png'); 
+  background-repeat: no-repeat;
+  background-size: cover;     
+  background-position:center;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 120px; /* Adjusted for fixed header */
+  overflow-y: auto;
+}
+
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #007BFF;
+  margin-right: 10px;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: rgba(255,255,255,0.98);
+    position: absolute;
+    top: 70px;
+    left: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 20px 0;
+    z-index: 999;
+  }
+  
+  .nav-links.open {
+    display: flex;
+  }
+  .main-header {
+    height: 70px;
+    flex-direction: row;
+    padding: 10px 0;
+    position: fixed;
+  }
+}
+
+/* Header Navbar Styles */
+.main-header {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+
+.header-logo .title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+  
+
+
+.nav-links a {
+  color: white;
+  background-color: #007BFF;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.nav-links a:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+
+   @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+      max-width: 90%;
+    button[type="submit"] {
+      font-size: 12px;
+      padding: 8px;
+    }
+    /* Further adjust body padding for very small screens */
+    body {
+      padding-top: 210px;
+    }
+  }
+}
+
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+  
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+    animation: slideDown 0.8s ease-in-out;
+  }
+
+  .user-type {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .user-type button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 12px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .user-type button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+  }
+
+  .user-type button.active {
+    background: #28a745;
+  }
+
+  form,
+  #dashboard {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
+    outline: none;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  button[type="submit"]:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+  }
+
+  .teachersignup a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .teachersignup a:hover {
+    text-decoration: underline;
+  }
+
+  .date-time-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  .date-time-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #007BFF;
+  }
+
+  .date-time-group input {
+    padding: 10px;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .date-time-group input:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
+    outline: none;
+  }
+
+  .teachersignup{
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+  }
+
+.hostel-form{
+  margin-top: 5px;
+}  
+
+.logo{
+width: 100%;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.logo img{
+  width: 70px;
+  height: 100%;
+  border-radius: 100px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+      max-width: 90%;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    .user-type {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .user-type button {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    input,
+    textarea {
+      font-size: 12px;
+      padding: 8px;
+    }
+
+    button[type="submit"] {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 20px;
+    }
+
+    .container {
+      padding: 10px;
+    }
+
+    .user-type button {
+      font-size: 12px;
+      padding: 8px;
+    }
+
+    input,
+    textarea {
+      font-size: 10px;
+      padding: 6px;
+    }
+
+    button[type="submit"] {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+
+
+</style>
+</head>
+
+<body>
+
+  <header class="main-header">
+  <div class="header-logo">
+    <img src="piet logo.jpg" alt="Logo">
+    <span class="title">PIET Gate Pass</span>
+  </div>
+  <nav>
+  <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="pietproject.html">Teacher Sign Up</a></li>
+    <li><a href="registration.html">Student Registration</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+</header>
+
+    <!-- User Type Buttons -->
+
+
+
+  <div class="container">
+<div class="logo">
+    <img src="piet logo.jpg" alt="">
+  </div>
+
+    <h2>Gate Pass System</h2>
+
+    <!-- User Type Buttons -->
+    <div class="user-type">
+      <button id="student-btn">Student</button>
+      <button id="teacher-btn">Teacher</button>
+      <button id="hostelar-btn">Hosteller</button>
+      <button id="warden-btn">Warden</button>
+    </div>
+
+ <!-- Student Registration Form -->
+<form id="registration-form">
+  <div class="form-group">
+    <input type="text" id="regId" placeholder="Registration ID" required />
+  </div>
+  <div class="form-group">
+    <input type="text" id="name" placeholder="Full Name" required />
+  </div>
+  <div class="form-group">
+    <input type="text" id="class" placeholder="Department" required />
+  </div>
+  <div class="form-group">
+    <input type="text" id="section" placeholder="Section" required />
+  </div>
+  <div class="form-group">
+    <input type="email" id="email" placeholder="Email" required />
+  </div>
+  <div class="form-group">
+    <textarea id="reason" placeholder="Reason for Gate Pass" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="dateTime">Date and Time:</label>
+    <input type="datetime-local" id="dateTime" required />
+  </div>
+  <div class="form-group">
+    <label for="contact">Contact:</label>
+    <input type="text" id="contact" placeholder="Enter your contact number" required />
+  </div>
+  <button type="submit">Submit Gate Pass</button>
+</form>
+
+    <form id="teacher-log-form">
+  <div class="form-group">
+    <input type="email" id="teacherId" placeholder="Teacher ID" required />
+  </div>
+  <div class="form-group">
+    <input type="password" id="teacherPass" placeholder="Password" required />
+  </div>
+  <button type="submit">Login as Teacher</button>
+  
+  <div class="forgot-password">
+    <a href="forget_password.html" id="teacher-forgot-password-link">Forgot Password?</a>
+  </div>
+</form>
+
+    <!-- Hostelar Gate Pass Form -->
+   <form id="hostelar-form">
+  <div class="form-group">
+    
+    <input type="text" id="hostelRegId" placeholder="Enter your registration ID" required />
+  </div>
+  <div class="form-group">
+  
+    <input type="text" id="hostelName" placeholder="Enter your name" required />
+  </div>
+  <div class="form-group">
+   
+    <input type="text" id="roomNumber" placeholder="Enter your department" required />
+  </div>
+  <div class="form-group">
+   
+    <input type="text" id="hostelBlock" placeholder="Enter your hostel block" required />
+  </div>
+  <div class="form-group">
+    
+    <textarea id="hostelReason" placeholder="Enter the reason for gate pass" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="outgoingDateTime">Outgoing Date and Time</label>
+    <input type="datetime-local" id="outgoingDateTime" required />
+  </div>
+  <div class="form-group">
+    <label for="incomingDateTime">Incoming Date and Time</label>
+    <input type="datetime-local" id="incomingDateTime" required />
+  </div>
+  <div class="form-group">
+  
+    <input type="text" id="hostelContact" placeholder="Enter your contact number" required />
+  </div>
+  <button type="submit">Submit Request</button>
+
+</form>
+
+
+
+    <!-- Warden Login Form -->
+   <form id="warden-login-form">
+  <div class="form-group">
+    <input type="email" id="wardenLoginEmail" placeholder="Email" required />
+  </div>
+  <div class="form-group">
+    <input type="password" id="wardenLoginPassword" placeholder="Password" required />
+  </div>
+  <button type="submit">Login as Warden</button>
+  
+  <div class="forgot-password">
+    <a href="forget_password.html" id="warden-forgot-password-link">Forgot Password?</a>
+  </div>
+  <div class="wardenform">
+    <p>Don't have an account? <a href="warden_form.html">Sign up</a></p>
+  </div>
+</form>
+
+  </div>
+
+  
+
+  <script>
+
+
+ const menuToggle = document.getElementById('menu-toggle');
+  const navLinks = document.getElementById('nav-links');
+  const studentBtn = document.getElementById('student-btn');
+    const teacherBtn = document.getElementById('teacher-btn');
+    const hostelarBtn = document.getElementById('hostelar-btn');
+    const wardenBtn = document.getElementById('warden-btn');
+    const registrationForm = document.getElementById('registration-form');
+    const teacherLoginForm = document.getElementById('teacher-log-form');
+    const hostelarForm = document.getElementById('hostelar-form');
+    const wardenLoginForm = document.getElementById('warden-login-form');
+
+
+    // Initially hide all forms
+    registrationForm.style.display = 'none';
+    teacherLoginForm.style.display = 'none';
+    hostelarForm.style.display = 'none';
+    wardenLoginForm.style.display = 'none';
+
+    // Show Student Registration Form
+   studentBtn.addEventListener('click', () => {
+  studentBtn.classList.add('active');
+  teacherBtn.classList.remove('active');
+  hostelarBtn.classList.remove('active');
+  wardenBtn.classList.remove('active');
+  registrationForm.style.display = 'block';
+  teacherLoginForm.style.display = 'none';
+  hostelarForm.style.display = 'none';
+  wardenLoginForm.style.display = 'none';
+  document.body.style.backgroundImage="url('student background.png')"
+ 
+});
+
+    // Show Teacher Login Form
+    teacherBtn.addEventListener('click', () => {
+      teacherBtn.classList.add('active');
+      studentBtn.classList.remove('active');
+      hostelarBtn.classList.remove('active');
+      wardenBtn.classList.remove('active');
+      registrationForm.style.display = 'none';
+      teacherLoginForm.style.display = 'block';
+      hostelarForm.style.display = 'none';
+      wardenLoginForm.style.display = 'none';
+      document.body.style.backgroundImage="url('teachersFILEminimizer.jpg')"
+
+    }); 
+
+    // Show Hostelar Gate Pass Form
+    hostelarBtn.addEventListener('click', () => {
+      hostelarBtn.classList.add('active');
+      studentBtn.classList.remove('active');
+      teacherBtn.classList.remove('active');
+      wardenBtn.classList.remove('active');
+      registrationForm.style.display = 'none';
+      teacherLoginForm.style.display = 'none';
+      hostelarForm.style.display = 'block';
+      wardenLoginForm.style.display = 'none';
+      document.body.style.backgroundImage="url('hostel.png')"
+    });
+
+    // Redirect to Warden Login Page
+    registrationForm.style.display = 'none';
+    teacherLoginForm.style.display = 'none';
+    hostelarForm.style.display = 'none';
+    wardenLoginForm.style.display = 'none';
+
+    // Show Warden Login Form
+    wardenBtn.addEventListener('click', () => {
+      wardenBtn.classList.add('active');
+      studentBtn.classList.remove('active');
+      teacherBtn.classList.remove('active');
+      hostelarBtn.classList.remove('active');
+      registrationForm.style.display = 'none';
+      teacherLoginForm.style.display = 'none';
+      hostelarForm.style.display = 'none';
+      wardenLoginForm.style.display = 'block';
+      document.body.style.backgroundImage="url('warden-hostel-3.png')"
+    });
+
+
+     menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+
+ // After saving to localStorage, add this fetch call:
+registrationForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Collect form data
+  const regId = document.getElementById('regId').value;
+  const name = document.getElementById('name').value;
+  const className = document.getElementById('class').value;
+  const section = document.getElementById('section').value;
+  const email = document.getElementById('email').value;
+  const reason = document.getElementById('reason').value;
+  const dateTime = document.getElementById('dateTime').value;
+  const contact = document.getElementById('contact').value;
+
+  // Save to localStorage
+  const gatePassRequest = {
+    regId,
+    name,
+    className,
+    section,
+    email,
+    reason,
+    dateTime,
+    contact,
+    status: 'Pending Approval'
+  };
+  const existingRequests = JSON.parse(localStorage.getItem('gatePassRequests')) || [];
+  existingRequests.push(gatePassRequest);
+  localStorage.setItem('gatePassRequests', JSON.stringify(existingRequests));
+
+  // Send email to teacher
+  fetch('http://localhost:5000/send-gatepass-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(gatePassRequest)
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert('Gate pass submitted and email sent to teacher!');
+    window.location.href = 'student_dashboard.html';
+  })
+  .catch(error => {
+    alert('Gate pass submitted, but failed to send email.');
+    window.location.href = 'student_dashboard.html';
+  });
+});
+
+  hostelarForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  // Collect form data
+  const hostelRegId = document.getElementById('hostelRegId').value;
+  const hostelName = document.getElementById('hostelName').value;
+  const roomNumber = document.getElementById('roomNumber').value;
+  const hostelBlock = document.getElementById('hostelBlock').value;
+  const hostelReason = document.getElementById('hostelReason').value;
+  const outgoingDateTime = document.getElementById('outgoingDateTime').value;
+  const incomingDateTime = document.getElementById('incomingDateTime').value;
+  const contact = document.getElementById('hostelContact').value;
+
+  // Create request object
+  const hostelGatePassRequest = {
+    regId: hostelRegId,
+    hostelName,
+    roomNumber,
+    hostelBlock,
+    hostelReason,
+    outgoingDateTime,
+    incomingDateTime,
+    contact,
+    status: 'Pending Approval',
+  };
+
+  // Save to localStorage
+  const existingRequests = JSON.parse(localStorage.getItem('hostelGatePassRequests')) || [];
+  existingRequests.push(hostelGatePassRequest);
+  localStorage.setItem('hostelGatePassRequests', JSON.stringify(existingRequests));
+
+  // **[FIX] Add this fetch call to send the email to the warden**
+  fetch('http://localhost:5000/send-hostel-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(hostelGatePassRequest)
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert('Request submitted and email sent to warden!');
+    window.location.href = 'hosteller_dashboard.html';
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Request submitted, but failed to send email to warden.');
+    window.location.href = 'hosteller_dashboard.html';
+  });
+});
+   
+    // Handle Teacher Login Form Submission
+    teacherLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent the default form submission behavior
+
+      // Collect form data (optional, if you want to validate it)
+      const teacherId = document.getElementById('teacherId').value;
+      const teacherPass = document.getElementById('teacherPass').value;
+
+      // Example: Validate credentials (optional)
+      if (teacherId === 'teacher@example.com' && teacherPass === 'password123') {
+        // Redirect to the Teacher Dashboard
+        window.location.href = 'teacher_dashboard.html'; // Replace with the actual dashboard file name
+      } else {
+        alert('Invalid Teacher ID or Password!');
+      }
+    });
+
+
+
+    // Handle Warden Login Form Submission just for demonstration
+    wardenLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent the default form submission behavior
+
+      // Collect form data (optional, if you want to validate it)
+      const wardenEmail = document.getElementById('wardenLoginEmail').value;
+      const wardenPassword = document.getElementById('wardenLoginPassword').value;
+
+      // Example: Validate credentials (optional)
+      if (wardenEmail.trim() === 'warden@example.com' && wardenPassword === 'password123') {
+        // Redirect to the Warden Dashboard
+        window.location.href = 'warden_dashboard.html'; // Replace with the actual dashboard file name
+      } else {
+        alert('Invalid Warden Email or Password!');
+      }
+    });
+
+  </script>
+</body>
+
+</html>

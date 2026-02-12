@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f8ff;
+    }
+    h3 {
+      text-align: center;
+    }
+    .request {
+      background: #f9f9f9;
+      border-left: 6px solid #007BFF;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .request:hover {
+      background: #e6f7ff;
+    }
+    .additional-info {
+      display: none;
+      margin-top: 10px;
+    }
+    .request-actions {
+      display: none;
+      margin-top: 10px;
+    }
+    .expanded .additional-info {
+      display: block;
+    }
+    .expanded .request-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .request-actions button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .logo{
+width: 100%;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.logo img{
+  width: 70px;
+  height: 100%;
+  border-radius: 100px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+    .accept { background: #28a745; color: white; }
+    .reject { background: #dc3545; color: white; }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="piet logo.jpg" alt="">
+  </div>
+
+  <h3>Gate Pass Requests</h3>
+  <div id="request-list">
+    <!-- Requests will be dynamically added here -->
+  </div>
+  <script>
+    const requestList = document.getElementById('request-list');
+const gatePassRequests = JSON.parse(localStorage.getItem('gatePassRequests')) || [];
+
+// Display each request on the dashboard
+gatePassRequests.forEach((request, index) => {
+  if (request.status === 'Pending Approval') { // Only show pending requests
+    const requestCard = document.createElement('div');
+    requestCard.className = 'request';
+    requestCard.innerHTML = `
+      <p><strong>${request.name}</strong> (${request.className}-${request.section})</p>
+      <div class="additional-info">
+        <p>Reg ID: ${request.regId}</p>
+        <p>Email: ${request.email}</p>
+        <p><em>Reason:</em> ${request.reason}</p>
+        <p><strong>Date and Time:</strong> ${request.dateTime || 'N/A'}</p>
+        <p><strong>Contact:</strong> ${request.contact || 'N/A'}</p>
+      </div>
+      <div class="request-actions">
+        <button class="accept" data-index="${index}">Accept</button>
+        <button class="reject" data-index="${index}">Reject</button>
+      </div>
+    `;
+    requestList.appendChild(requestCard);
+
+    // Add click event to toggle additional details
+    requestCard.addEventListener('click', () => {
+      requestCard.classList.toggle('expanded');
+    });
+  }
+});
+
+// Handle Accept/Reject buttons
+requestList.addEventListener('click', (e) => {
+  if (e.target.classList.contains('accept') || e.target.classList.contains('reject')) {
+    e.stopPropagation(); // Prevent triggering the parent click event
+    const index = e.target.getAttribute('data-index');
+    const action = e.target.classList.contains('accept') ? 'Approved' : 'Rejected';
+
+    // Update the status of the request
+    gatePassRequests[index].status = action;
+
+    // Save updated requests back to localStorage
+    localStorage.setItem('gatePassRequests', JSON.stringify(gatePassRequests));
+
+    // Remove the request card from the DOM
+    const requestCard = e.target.parentElement.parentElement;
+    requestCard.remove();
+
+    alert(`Request has been ${action.toLowerCase()}!`);
+  }
+});
+  </script>
+</body>
+</html>
